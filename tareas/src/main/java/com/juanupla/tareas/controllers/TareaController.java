@@ -9,14 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponseException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
 
 import javax.swing.text.html.parser.Entity;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/tarea")
@@ -36,4 +34,33 @@ public class TareaController {
          }
 
     }
+
+    @GetMapping("{id}/AllTareasByUserId")
+    public ResponseEntity<List<Tarea>> tareas(@PathVariable @Valid Long id){
+        List<Tarea> lista = tareaService.findAllByNombreUsuarioId(id);
+        if(lista.isEmpty()){
+            throw new ErrorResponseException(HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return ResponseEntity.ok(lista);
+        }
+    }
+
+    @PutMapping("/updateTarea")
+    public ResponseEntity<Tarea> updateTarea(@RequestBody @Valid Tarea tarea){
+        Tarea result = tareaService.updateTarea(tarea);
+        if (result != null){
+            return ResponseEntity.ok(result);
+        }
+        else
+        {
+            throw new ErrorResponseException(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/deleteTarea/{id}")
+        public ResponseEntity<Boolean> delete(Long id){
+            Boolean result = tareaService.deleteTarea(id);
+            return ResponseEntity.ok(result);
+        }
 }

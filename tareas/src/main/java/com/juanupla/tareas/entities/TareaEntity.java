@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
 @Table(name = "tareas")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,9 +21,9 @@ public class TareaEntity {
     @Column
     private String nombre;
     @Column
-    private LocalDateTime fechaInicio;
+    private LocalDate fechaInicio;
     @Column
-    private LocalDateTime fechaLimite;
+    private LocalDate fechaLimite;
     @Column
     private String prioridad;
     @Column

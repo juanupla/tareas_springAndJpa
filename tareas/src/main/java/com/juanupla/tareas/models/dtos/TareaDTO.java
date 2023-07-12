@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,12 +16,12 @@ import java.time.LocalDateTime;
 public class TareaDTO {
     @NotNull
     private String nombre;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")//en el config se agrego objectMapper.registerModule(new JavaTimeModule());
-    //para que no se rompa la app, pero el formato devuelto es poco amigable. a raiz de eso, esta notacion para darle un formato más amigable
-    private LocalDateTime fechaLimite;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate fechaLimite;
     @NotNull
     private String prioridad;
     private String descripcion;
+    @NotNull
     private Usuario usuario;
     @NotNull
     private boolean realizada;

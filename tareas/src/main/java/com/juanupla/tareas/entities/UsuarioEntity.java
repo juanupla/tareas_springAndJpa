@@ -22,5 +22,5 @@ public class UsuarioEntity {
     private String password;
 
     @OneToMany(mappedBy = "usuario")
-    List<TareaEntity> tareas;
+    private List<TareaEntity> tareas;
 }
