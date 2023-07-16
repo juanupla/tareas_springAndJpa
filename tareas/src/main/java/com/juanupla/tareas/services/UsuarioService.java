@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public interface UsuarioService {
     Usuario singIn(String nombreUsuario, String password);
 
-    UsuarioDTO logIn(String nombreUsuario, String password);
+    String logIn(String nombreUsuario, String password);
 
     Usuario getUsuario(String nombreusuario);
 }

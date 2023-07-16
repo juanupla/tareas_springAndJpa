@@ -1,6 +1,7 @@
 package com.juanupla.tareas.services;
 
 import com.juanupla.tareas.models.Tarea;
+import com.juanupla.tareas.models.dtos.TareaDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,4 +18,6 @@ Creación y gestión de tareas: Una vez que los usuarios hayan iniciado sesión,
     Tarea updateTarea(Tarea tarea);
 
     boolean deleteTarea(Long idEliminar);
+
+    List<TareaDTO> listaTareas(String nombre, String prioridad);
 }

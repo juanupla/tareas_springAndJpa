@@ -22,7 +22,7 @@ public class LoginController {
 
 
 
-    @PostMapping("/enter")
+    @PostMapping("/create")
     public ResponseEntity<Usuario> signIn(@RequestBody @Valid UsuarioDTO usuario){
         try {
             return ResponseEntity.ok(usuarioService.singIn(usuario.getNombreUsuario(), usuario.getPassword()));
@@ -32,12 +32,12 @@ public class LoginController {
         }
     }
     @PostMapping("/login")
-    public ResponseEntity<UsuarioDTO> logIn(@RequestBody @Valid UsuarioDTO usuario){
+    public ResponseEntity<String> logIn(@RequestBody @Valid UsuarioDTO usuario){
         try {
             return ResponseEntity.ok(usuarioService.logIn(usuario.getNombreUsuario(),usuario.getPassword()));
         }
         catch (Error error){
-            throw new ErrorResponseException(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.ok("error");
         }
     }
 

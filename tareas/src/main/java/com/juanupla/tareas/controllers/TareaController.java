@@ -3,6 +3,7 @@ package com.juanupla.tareas.controllers;
 import com.juanupla.tareas.entities.TareaEntity;
 import com.juanupla.tareas.models.Tarea;
 import com.juanupla.tareas.models.dtos.TareaDTO;
+import com.juanupla.tareas.models.dtos.comandoTarea.comandoTarea;
 import com.juanupla.tareas.services.TareaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,6 @@ public class TareaController {
          else {
              throw new ErrorResponseException(HttpStatus.BAD_REQUEST);
          }
-
     }
 
     @GetMapping("{id}/AllTareasByUserId")
@@ -63,4 +63,26 @@ public class TareaController {
             Boolean result = tareaService.deleteTarea(id);
             return ResponseEntity.ok(result);
         }
+
+
+
+
+        /*
+        * Visualización de tareas: Los usuarios deben poder ver sus tareas pendientes y completadas
+        * en una lista ordenada por fecha límite. Pueden filtrar las tareas por etiqueta o por prioridad.
+        *
+        * t0do ordenado por fecha agregar filtros para etiqueta o prioridad o ambos
+        *
+        * */
+    @PostMapping("/listTarea")
+    public ResponseEntity<List<TareaDTO>> listTareas(@RequestBody comandoTarea comandoTarea){
+        List<TareaDTO> list = tareaService.listaTareas(comandoTarea.getNombre(),comandoTarea.getPrioridad());
+        if (list.isEmpty()){
+            throw new ErrorResponseException(HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return ResponseEntity.ok(list);
+        }
+    }
+
 }

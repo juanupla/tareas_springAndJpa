@@ -1,5 +1,6 @@
 package com.juanupla.tareas.services.Impl;
 
+import com.juanupla.tareas.JwtUtil.JwtUtil;
 import com.juanupla.tareas.entities.UsuarioEntity;
 import com.juanupla.tareas.models.Usuario;
 import com.juanupla.tareas.models.dtos.UsuarioDTO;
@@ -39,10 +40,12 @@ public class UsuarioServiceImpl implements UsuarioService
 
     }
     @Override
-    public UsuarioDTO logIn(String nombreUsuario, String password){
+    public String logIn(String nombreUsuario, String password){
         Optional<UsuarioEntity> user = usuariosJpa.findByNombreUsuarioAndPassword(nombreUsuario,password);
         if(user.isPresent()){
-            return modelMapper.map(user, UsuarioDTO.class);
+            String token = JwtUtil.generateToken(nombreUsuario);
+
+            return token;
         }
         else {
             throw new EntityExistsException(HttpStatus.BAD_REQUEST.getReasonPhrase());

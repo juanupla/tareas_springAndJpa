@@ -14,4 +14,8 @@ public interface TareaJpa extends JpaRepository<TareaEntity, Long> {
 
     //@Query("SELECT m FROM TareaEntity m WHERE m.nombreUsuario.id = :userId")
     Optional<List<TareaEntity>> findAllByUsuarioId(Long UsuarioId);
+
+    Optional<List<TareaEntity>> findAllByNombre(String nombre);
+
+    Optional<List<TareaEntity>> findAllByPrioridad(String prioridad);
 }

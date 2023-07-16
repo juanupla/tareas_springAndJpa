@@ -3,6 +3,7 @@ package com.juanupla.tareas.services.Impl;
 import com.juanupla.tareas.entities.TareaEntity;
 import com.juanupla.tareas.models.Tarea;
 import com.juanupla.tareas.models.Usuario;
+import com.juanupla.tareas.models.dtos.TareaDTO;
 import com.juanupla.tareas.repositoriesJpa.TareaJpa;
 import com.juanupla.tareas.services.TareaService;
 import com.juanupla.tareas.services.UsuarioService;
@@ -13,9 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.ErrorResponseException;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TareaServiceImpl implements TareaService {
@@ -82,5 +81,32 @@ public class TareaServiceImpl implements TareaService {
            throw new ErrorResponseException(HttpStatus.BAD_REQUEST);
 
        }
+
     }
+    public List<TareaDTO> listaTareas(String nombre, String prioridad){
+
+        List<TareaDTO> list = new ArrayList<>();
+        if(nombre != null){
+            Optional<List<TareaEntity>> listEntity = tareaJpa.findAllByNombre(nombre);
+            for (TareaEntity tarea: listEntity.get()) {
+                list.add(modelMapper.map(tarea,TareaDTO.class));
+            }
+        }
+        if(prioridad != null){
+            Optional<List<TareaEntity>> listEntity2 = tareaJpa.findAllByPrioridad(prioridad);
+            for (TareaEntity tarea2: listEntity2.get()) {
+                list.add(modelMapper.map(tarea2,TareaDTO.class));
+            }
+        }
+        if(nombre == null && prioridad == null){
+            List<TareaEntity> listEntity3 = tareaJpa.findAll();
+            for (TareaEntity tarea3: listEntity3) {
+                list.add(modelMapper.map(tarea3,TareaDTO.class));
+            }
+        }
+        list.sort(Comparator.comparing(TareaDTO::getFechaLimite));
+
+        return list;
+    }
+
 }

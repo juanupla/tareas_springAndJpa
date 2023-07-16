@@ -2,6 +2,7 @@ package com.juanupla.tareas.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.juanupla.tareas.models.Usuario;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,8 @@ import java.time.LocalDateTime;
 public class TareaDTO {
     @NotNull
     private String nombre;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate fechaLimite;
     @NotNull
     private String prioridad;
