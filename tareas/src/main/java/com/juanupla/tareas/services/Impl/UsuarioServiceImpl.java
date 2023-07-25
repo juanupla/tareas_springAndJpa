@@ -1,9 +1,8 @@
 package com.juanupla.tareas.services.Impl;
 
-import com.juanupla.tareas.JwtUtil.JwtUtil;
+import com.juanupla.tareas.JwtUtil.JwtTokenFilter;
 import com.juanupla.tareas.entities.UsuarioEntity;
 import com.juanupla.tareas.models.Usuario;
-import com.juanupla.tareas.models.dtos.UsuarioDTO;
 import com.juanupla.tareas.repositoriesJpa.UsuarioJpa;
 import com.juanupla.tareas.services.UsuarioService;
 import jakarta.persistence.EntityExistsException;
@@ -43,9 +42,8 @@ public class UsuarioServiceImpl implements UsuarioService
     public String logIn(String nombreUsuario, String password){
         Optional<UsuarioEntity> user = usuariosJpa.findByNombreUsuarioAndPassword(nombreUsuario,password);
         if(user.isPresent()){
-            String token = JwtUtil.generateToken(nombreUsuario);
 
-            return token;
+            return JwtTokenFilter.generateToken(nombreUsuario);
         }
         else {
             throw new EntityExistsException(HttpStatus.BAD_REQUEST.getReasonPhrase());

@@ -22,7 +22,7 @@ public class LoginController {
 
 
 
-    @PostMapping("/create")
+    @PostMapping("/create-user")
     public ResponseEntity<Usuario> signIn(@RequestBody @Valid UsuarioDTO usuario){
         try {
             return ResponseEntity.ok(usuarioService.singIn(usuario.getNombreUsuario(), usuario.getPassword()));
