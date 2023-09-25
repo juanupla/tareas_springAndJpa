@@ -20,6 +20,8 @@ public class UsuarioEntity {
     private String nombreUsuario;
     @Column
     private String password;
+    @Column
+    private String email;
 
     @OneToMany(mappedBy = "usuario")
     private List<TareaEntity> tareas;

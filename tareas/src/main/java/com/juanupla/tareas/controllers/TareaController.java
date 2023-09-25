@@ -26,7 +26,7 @@ public class TareaController {
 
     @PostMapping("/newTarea")
     public ResponseEntity<Tarea> nuevaTarea(@RequestBody @Valid TareaDTO tarea){
-         Tarea tarea1 = tareaService.newTarea(tarea.getNombre(),tarea.getFechaLimite(), tarea.getPrioridad(),tarea.isRealizada(),tarea.getDescripcion(),tarea.getUsuario().getNombreUsuario());
+         Tarea tarea1 = tareaService.newTarea(tarea);
          if(tarea1 != null){
              return ResponseEntity.ok(tarea1);
          }
@@ -37,7 +37,7 @@ public class TareaController {
 
     @GetMapping("{id}/AllTareasByUserId")
     public ResponseEntity<List<Tarea>> tareas(@PathVariable @Valid Long id){
-        List<Tarea> lista = tareaService.findAllByNombreUsuarioId(id);
+                List<Tarea> lista = tareaService.findAllByNombreUsuarioId(id);
         if(lista.isEmpty()){
             throw new ErrorResponseException(HttpStatus.BAD_REQUEST);
         }
@@ -59,7 +59,7 @@ public class TareaController {
     }
 
     @DeleteMapping("/deleteTarea/{id}")
-        public ResponseEntity<Boolean> delete(Long id){
+        public ResponseEntity<Boolean> delete(@PathVariable Long id){
             Boolean result = tareaService.deleteTarea(id);
             return ResponseEntity.ok(result);
         }

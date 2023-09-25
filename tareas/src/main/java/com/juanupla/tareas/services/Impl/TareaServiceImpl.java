@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.ErrorResponseException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -25,19 +26,19 @@ public class TareaServiceImpl implements TareaService {
     @Autowired
     private UsuarioService usuarioService;
 
-    public Tarea newTarea(String nombreTarea, LocalDate fechaLimite, String prioridad, boolean estaCompleta, String descripcion, String nombreUsuario){
+    public Tarea newTarea(TareaDTO tareaDTO){
 
 
-        Usuario usuario = usuarioService.getUsuario(nombreUsuario);
+        Usuario usuario = usuarioService.getUsuario(tareaDTO.getUsuario().getNombreUsuario());
 
         Tarea tarea = new Tarea();
-        tarea.setNombre(nombreTarea);
+        tarea.setNombre(tareaDTO.getNombre());
         tarea.setFechaInicio(LocalDate.now());
-        tarea.setFechaLimite(fechaLimite);
-        tarea.setPrioridad(prioridad);
-        tarea.setRealizada(estaCompleta);
-        tarea.setUsuario(usuario);
-        tarea.setDescripcion(descripcion);
+        tarea.setFechaLimite(tareaDTO.getFechaLimite());
+        tarea.setPrioridad(tareaDTO.getFechaLimite().toString());
+        tarea.setRealizada(tareaDTO.isRealizada());
+        tarea.setUsuario(tareaDTO.getUsuario());
+        tarea.setDescripcion(tareaDTO.getDescripcion());
 
 
         TareaEntity tareaEntity = tareaJpa.save(modelMapper.map(tarea,TareaEntity.class));
@@ -63,19 +64,22 @@ public class TareaServiceImpl implements TareaService {
     public Tarea updateTarea(Tarea tarea){
 
         TareaEntity resul = tareaJpa.getReferenceById(tarea.getId());
-        modelMapper.map(tarea,resul);
+        resul.setDescripcion(tarea.getDescripcion());
+        resul.setNombre(tarea.getNombre());
+        resul.setPrioridad(tarea.getPrioridad());
+        resul.setRealizada(tarea.isRealizada());
+        resul.setFechaLimite(tarea.getFechaLimite());
+        //modelMapper.map(resul,Tarea.class);
         TareaEntity fin = tareaJpa.save(resul);
         return modelMapper.map(fin,Tarea.class);
 
     }
     public boolean deleteTarea(Long idEliminar){
        TareaEntity tare = tareaJpa.getReferenceById(idEliminar);
-       boolean active = false;
        if(tare != null){
 
            tareaJpa.deleteById(idEliminar);
-            active = true;
-            return active;
+            return true;
        }
        else {
            throw new ErrorResponseException(HttpStatus.BAD_REQUEST);

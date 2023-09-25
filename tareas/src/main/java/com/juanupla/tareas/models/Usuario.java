@@ -15,4 +15,5 @@ public class Usuario {
     private String nombreUsuario;
     @NotNull
     private String password;
+    private String email;
 }

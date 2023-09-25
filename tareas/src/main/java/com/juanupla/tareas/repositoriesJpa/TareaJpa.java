@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface TareaJpa extends JpaRepository<TareaEntity, Long> {
 
-    //@Query("SELECT m FROM TareaEntity m WHERE m.nombreUsuario.id = :userId")
+    //@Query("SELECT m FROM TareaEntity m WHERE m.nombreUsuario.id = :UsuarioId")
     Optional<List<TareaEntity>> findAllByUsuarioId(Long UsuarioId);
 
     Optional<List<TareaEntity>> findAllByNombre(String nombre);
